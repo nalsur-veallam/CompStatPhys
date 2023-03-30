@@ -1,0 +1,243 @@
+LAMMPS (29 Sep 2021 - Update 2)
+# 3d Lennard-Jones melt
+
+variable    ave_one equal 500
+variable    nintervals index 40
+variable    mcmaxdispl index 0.2
+variable    prodlength equal ${ave_one}*${nintervals}
+variable    prodlength equal 500*${nintervals}
+variable    prodlength equal 500*40
+variable    temperature index 1.0
+
+units		lj
+atom_style	atomic
+
+lattice		sc 0.8442
+Lattice spacing in x,y,z = 1.0580793 1.0580793 1.0580793
+region		box block 0 5 0 5 0 5
+create_box	1 box
+Created orthogonal box = (0.0000000 0.0000000 0.0000000) to (5.2903965 5.2903965 5.2903965)
+  1 by 1 by 1 MPI processor grid
+create_atoms	1 box
+Created 125 atoms
+  using lattice units in orthogonal box = (0.0000000 0.0000000 0.0000000) to (5.2903965 5.2903965 5.2903965)
+  create_atoms CPU = 0.000 seconds
+mass		1 1.0
+
+velocity	all create 3.0 87287
+
+pair_style	lj/smooth 3.0 3.5
+pair_coeff	1 1 1.0 1.0
+
+neighbor	0.3 bin
+neigh_modify	every 20 delay 0 check no
+
+fix		1 all nve
+
+thermo		500
+
+thermo_style	custom step temp etotal press
+run		2500
+Neighbor list info ...
+  update every 20 steps, delay 0 steps, check no
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 3.8
+  ghost atom cutoff = 3.8
+  binsize = 1.9, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/smooth, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 2.635 | 2.635 | 2.635 Mbytes
+Step Temp TotEng Press 
+       0            3   -1.0476854    3.9138214 
+     500    2.3754998   -1.0519801    8.0165648 
+    1000    2.3915791   -1.0523855    7.9698354 
+    1500    2.3160083   -1.0542784     8.343986 
+    2000    2.2641375   -1.0525307    8.5995115 
+    2500    2.2041144   -1.0538041    8.9278075 
+Loop time of 0.748715 on 1 procs for 2500 steps with 125 atoms
+
+Performance: 1442471.236 tau/day, 3339.054 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.64372    | 0.64372    | 0.64372    |   0.0 | 85.98
+Neigh   | 0.06895    | 0.06895    | 0.06895    |   0.0 |  9.21
+Comm    | 0.027437   | 0.027437   | 0.027437   |   0.0 |  3.66
+Output  | 0.00010698 | 0.00010698 | 0.00010698 |   0.0 |  0.01
+Modify  | 0.0042557  | 0.0042557  | 0.0042557  |   0.0 |  0.57
+Other   |            | 0.004245   |            |       |  0.57
+
+Nlocal:        125.000 ave         125 max         125 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:        1702.00 ave        1702 max        1702 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:        12022.0 ave       12022 max       12022 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 12022
+Ave neighs/atom = 96.176000
+Neighbor list builds = 125
+Dangerous builds not checked
+
+fix		isokin all temp/rescale 20 ${temperature} ${temperature} 0.02 1.0
+fix		isokin all temp/rescale 20 1.0 ${temperature} 0.02 1.0
+fix		isokin all temp/rescale 20 1.0 1.0 0.02 1.0
+
+run		50000
+Per MPI rank memory allocation (min/avg/max) = 2.636 | 2.636 | 2.636 Mbytes
+Step Temp TotEng Press 
+    2500    2.2041144   -1.0538041    8.9278075 
+    3000            1   -4.1182608    2.3894003 
+    3500            1   -4.0855174    2.3621729 
+    4000            1   -4.2195629    1.5455859 
+    4500            1    -4.080068     2.249721 
+    5000            1   -4.1143477    2.3203669 
+    5500            1   -4.0772506    2.2979778 
+    6000            1   -4.2030716    1.9888427 
+    6500            1   -4.0756337    2.4203525 
+    7000   0.98530931   -4.0730075    2.5140439 
+    7500    1.0129375   -4.0446358    2.5097237 
+    8000            1   -4.1822128     1.987785 
+    8500    1.0194077   -4.1161319    2.1484757 
+    9000            1   -4.2571187    1.4646212 
+    9500            1   -4.1303606    2.2061842 
+   10000   0.99523055    -4.103733    2.2359235 
+   10500            1   -4.1315587    2.0972892 
+   11000            1   -4.2323761    1.8499689 
+   11500            1   -4.2075915    1.8579829 
+   12000            1   -4.1070641    2.4063595 
+   12500            1   -4.1641696    2.0295123 
+   13000            1   -4.0703679     2.353497 
+   13500            1   -3.9181411    3.1549911 
+   14000            1   -4.1792378    1.8877742 
+   14500            1    -4.069119    2.5486113 
+   15000            1   -4.0197825       2.7043 
+   15500            1   -4.0472019    2.6653922 
+   16000            1   -4.2048913    1.9335916 
+   16500            1   -4.1674427    2.0024179 
+   17000            1   -4.1527407    2.0443641 
+   17500            1   -4.1319548    2.2734302 
+   18000   0.99019228   -4.0247178    2.8128473 
+   18500            1   -4.0398941    2.5676897 
+   19000            1   -4.2727774    1.5383744 
+   19500            1   -4.1469406    1.9692043 
+   20000            1   -4.0458163    2.5112377 
+   20500            1   -4.1697906    1.8677733 
+   21000            1   -4.1617427    2.0465212 
+   21500    1.0024178    -4.053583    2.5815863 
+   22000            1    -4.117304    2.3750643 
+   22500            1   -4.1741068    2.0867073 
+   23000            1    -4.128669    2.1510041 
+   23500            1   -4.2291857    1.5672379 
+   24000   0.99580328   -4.0588615    2.8021272 
+   24500    1.0155533   -4.2604403    1.4430799 
+   25000            1   -3.9962823    2.8026225 
+   25500   0.98947266   -4.1359306    2.1884271 
+   26000            1    -4.236854    1.7025614 
+   26500            1    -4.142546    2.1399052 
+   27000   0.98243479   -4.0738303    2.5201022 
+   27500            1   -4.1366157    2.1242866 
+   28000            1   -4.0759313    2.4442375 
+   28500    1.0156533   -4.2168603    1.6085535 
+   29000            1   -4.1589101    1.9867862 
+   29500            1   -4.1458279    2.1296639 
+   30000    1.0003932   -4.1325055    2.2465389 
+   30500            1   -4.1999469    1.5782352 
+   31000            1   -4.2453178    1.7632686 
+   31500            1   -4.0754439    2.5047327 
+   32000            1   -4.0088993    2.6957005 
+   32500   0.99151404   -4.1272049     2.299976 
+   33000            1   -4.3265597    1.2397018 
+   33500   0.98224959   -4.2215248    1.8350982 
+   34000            1   -4.2511581    1.5606836 
+   34500            1    -4.157189    2.1612661 
+   35000            1   -4.1380094    2.2433763 
+   35500            1   -4.1230881    2.3520575 
+   36000     1.016735   -4.1696109    1.9003522 
+   36500            1   -3.9905513    3.0558737 
+   37000            1   -4.0783912    2.4190612 
+   37500   0.98395266   -4.1135728    2.3561082 
+   38000            1   -4.1205514    2.1036333 
+   38500            1   -4.1115011    2.4138156 
+   39000            1   -4.1863367    2.0103809 
+   39500   0.99084978   -4.1066111    2.2641106 
+   40000            1   -3.9929022    2.7533447 
+   40500            1    -4.144628    2.0560989 
+   41000            1   -4.1232186    2.1551895 
+   41500            1   -4.2254827    1.6900265 
+   42000            1   -4.2253875    1.7410771 
+   42500   0.99962859   -4.0737045    2.4222508 
+   43000            1   -3.9712599    2.9459281 
+   43500            1   -4.1880652    2.0531775 
+   44000            1   -4.0989288    2.2614921 
+   44500    1.0193927   -4.0416017    2.4216798 
+   45000            1   -4.2036447    1.8125771 
+   45500            1   -4.2378317    1.5845581 
+   46000   0.99308479   -4.0857809    2.2142976 
+   46500            1   -4.1335717    2.0271807 
+   47000            1   -4.1657718    1.9991987 
+   47500            1   -4.2038968    1.8657908 
+   48000            1   -4.1951957    1.9775095 
+   48500   0.99191525   -4.0615156    2.7103847 
+   49000            1     -4.10196    2.2024798 
+   49500            1   -4.1373193    2.1064637 
+   50000            1   -4.1484499    2.0797662 
+   50500            1   -4.1487878    2.2377044 
+   51000   0.98846273   -4.1269531    2.2938864 
+   51500            1   -4.0682831    2.5372996 
+   52000            1   -4.1471391    2.1917291 
+   52500            1   -3.9430637    3.1771891 
+Loop time of 14.7704 on 1 procs for 50000 steps with 125 atoms
+
+Performance: 1462386.947 tau/day, 3385.155 timesteps/s
+99.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 12.679     | 12.679     | 12.679     |   0.0 | 85.84
+Neigh   | 1.3665     | 1.3665     | 1.3665     |   0.0 |  9.25
+Comm    | 0.5479     | 0.5479     | 0.5479     |   0.0 |  3.71
+Output  | 0.001915   | 0.001915   | 0.001915   |   0.0 |  0.01
+Modify  | 0.091322   | 0.091322   | 0.091322   |   0.0 |  0.62
+Other   |            | 0.08398    |            |       |  0.57
+
+Nlocal:        125.000 ave         125 max         125 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:        1692.00 ave        1692 max        1692 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:        12044.0 ave       12044 max       12044 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 12044
+Ave neighs/atom = 96.352000
+Neighbor list builds = 2500
+Dangerous builds not checked
+
+compute	p_all all pressure thermo_temp virial
+
+unfix		isokin
+
+thermo_style	custom step temp etotal press c_p_all
+#=====Berendsen MD run====#
+reset_timestep	0
+
+fix		ave_p all ave/time ${nintervals} ${ave_one} ${prodlength} c_p_all
+fix		ave_p all ave/time 40 ${ave_one} ${prodlength} c_p_all
+fix		ave_p all ave/time 40 500 ${prodlength} c_p_all
+fix		ave_p all ave/time 40 500 20000 c_p_all
+unfix	1
+fix		1 all nve
+fix		2 all temp/berendsen ${temperature} ${temperature}  0.2
+fix		2 all temp/berendsen 1.0 ${temperature}  0.2
+fix		2 all temp/berendsen 1.0 1.0  0.2
+
+thermo		200
+
+log		log.berendsen.txt
