@@ -1,0 +1,19 @@
+LAMMPS (29 Sep 2021 - Update 2)
+# 3d Lennard-Jones melt
+
+variable        rho index 0.61
+variable        temp index 1.4
+
+variable        t_every index 5
+variable        n_acc index 1000
+variable        n_windows index 25
+variable        n_dump equal ${t_every}*${n_acc}
+variable        n_dump equal 5*${n_acc}
+variable        n_dump equal 5*1000
+variable        run_steps equal ${n_dump}*${n_windows}
+variable        run_steps equal 5000*${n_windows}
+variable        run_steps equal 5000*25
+
+log             log.viscosity.gk.T${temp}.rho${rho}
+log             log.viscosity.gk.T1.4.rho${rho}
+log             log.viscosity.gk.T1.4.rho0.61

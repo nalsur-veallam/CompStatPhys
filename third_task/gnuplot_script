@@ -1,0 +1,14 @@
+set terminal epslatex color
+set output "pic1.tex"
+set format xy "$%g$"
+set lmargin 10
+set grid
+set key top left
+
+
+set title "Среднеквадратичное смещение от времени"
+set xlabel "$\\tau$" 
+set ylabel "$\\langle \\Delta r^2 \\rangle $" offset -3, 0 rotate by 0
+plot "msd.T1.5.rho0.67.log" using 1:2  title "T=1.5, \\rho=0.67" with linespoints, "msd.T1.4.rho0.67.log" using 1:2  title "T=1.4, \\rho=0.67" with linespoints, "msd.T1.5.rho0.64.log" using 1:2  title "T=1.5, \\rho=0.64" with linespoints, "msd.T1.4.rho0.64.log" using 1:2  title "T=1.4, \\rho=0.64" with linespoints, "msd.T1.5.rho0.61.log" using 1:2  title "T=1.5, \\rho=0.61" with linespoints, "msd.T1.4.rho0.61.log" using 1:2  title "T=1.4, \\rho=0.61" with linespoints
+
+set out
