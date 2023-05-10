@@ -23,5 +23,6 @@ for rho in rhos:
         d = data[80:, 2]
         
         D = np.mean(d)
-        print("(2) D for T=", T, "and rho=", rho, "is", D)
+        err = np.std(d)
+        print("(2) D for T=", T, "and rho=", rho, "is", D, "+-", err)
         

@@ -1,6 +1,7 @@
 import numpy as np
 import pylab as plt
 from numpy import fft as fft
+from tqdm import tqdm
 
 def integrate(ydata, xdata = None):
     """
@@ -80,22 +81,36 @@ for rho in rhos:
         pxz = data[:, 2]
         pyz = data[:, 3]
         
-        intxy, intxz, intyz = integrate(acf(pxy, 1000), x[0:1000]), integrate(acf(pxz, 1000), x[0:1000]), integrate(acf(pyz, 1000), x[0:1000])
-        integ=(intxy + intxz + intyz) / 3
+        N = len(x) - 1000
+        step = 10
+        Nsteps = N//step
         
-        ax.plot(x[0:1000], intxy, lw=3, label='XY')
-        ax.plot(x[0:1000], intxz, lw=3, label='XZ')
-        ax.plot(x[0:1000], intyz, lw=3, label='YZ')
-        ax.plot(x[0:1000], integ, lw=3 , label='Average')
-        ax.set_xlabel("$\\tau$", fontsize=16)  
-        ax.set_ylabel('Интеграл', fontsize=16) 
-        ax.grid()
-        ax.legend(fontsize=16)
-        ax.set_title('T = '+str(T)+' rho = '+str(rho), fontsize=20)
-        ax.tick_params(axis='both', which='major', labelsize=16)
+        Is = []
+        for p in tqdm(range(Nsteps)):
+            intxy, intxz, intyz = integrate(acf(pxy[p*step:p*step+1000], 1000), x[p*step:p*step+1000]), integrate(acf(pxz[p*step:p*step+1000], 1000), x[p*step:p*step+1000]), integrate(acf(pyz[p*step:p*step+1000], 1000), x[p*step:p*step+1000])
+            integ=(intxy + intxz + intyz) / 3
+            Is.append(np.mean(integ[-100:]))
+            
+        I = np.mean(Is)
+        err = np.std(Is)/np.log(Nsteps)
+        
+        
+        #intxy, intxz, intyz = integrate(acf(pxy, 1000), x[0:1000]), integrate(acf(pxz, 1000), x[0:1000]), integrate(acf(pyz, 1000), x[0:1000])
+        #integ=(intxy + intxz + intyz) / 3
+        
+        #ax.plot(x[0:1000], intxy, lw=3, label='XY')
+        #ax.plot(x[0:1000], intxz, lw=3, label='XZ')
+        #ax.plot(x[0:1000], intyz, lw=3, label='YZ')
+        #ax.plot(x[0:1000], integ, lw=3 , label='Average')
+        #ax.set_xlabel("$\\tau$", fontsize=16)  
+        #ax.set_ylabel('Интеграл', fontsize=16) 
+        #ax.grid()
+        #ax.legend(fontsize=16)
+        #ax.set_title('T = '+str(T)+' rho = '+str(rho), fontsize=20)
+        #ax.tick_params(axis='both', which='major', labelsize=16)
         #plt.show()
-        I = np.mean(integ[-300:])
+        #I = np.mean(integ[-300:])
         eta = 15**3/rho/T*I
-        print("$\\eta$ for T=", T, "and rho=", rho, "is", eta)
+        print("$\\eta$ for T=", T, "and rho=", rho, "is", eta, "+-", 15**3/rho/T*err)
         
 fig.savefig('ieta.pdf')
