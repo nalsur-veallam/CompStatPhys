@@ -1,0 +1,27 @@
+units		lj
+atom_style	atomic
+
+lattice		sc $d origin 0.5 0.5 0.5
+lattice		sc 0.76 origin 0.5 0.5 0.5
+Lattice spacing in x,y,z = 1.0957937 1.0957937 1.0957937
+region		box block 0 10 0 10 0 10
+create_box	1 box
+Created orthogonal box = (0.0000000 0.0000000 0.0000000) to (10.957937 10.957937 10.957937)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 1000 atoms
+  using lattice units in orthogonal box = (0.0000000 0.0000000 0.0000000) to (10.957937 10.957937 10.957937)
+  create_atoms CPU = 0.000 seconds
+mass		1 1.0
+
+group           work type 1
+1000 atoms in group work
+
+velocity	work create 1.0 87287 mom yes
+
+pair_style      lj/gromacs 3.0 4.0
+
+neighbor	0.3 bin
+neigh_modify	every 5 delay 0 check yes
+
+log             widom_prepare.log
