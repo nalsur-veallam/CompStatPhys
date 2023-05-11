@@ -1,0 +1,11 @@
+=========================================
+SLURM_JOB_ID = 712046
+SLURM_JOB_NODELIST = node20-12
+SLURM_CPUS_ON_NODE = 4
+SLURM_JOB_PARTITION = RT
+SLURM_TASK_PID = 2347333
+==========================================
+LAMMPS (29 Sep 2021 - Update 2)
+ERROR: Cannot open file lj.rho0.96999999999999997335.T01.399999999999: No such file or directory (../read_data.cpp:312)
+Last command: read_data "lj.rho0.96999999999999997335.T01.399999999999"
+srun: error: node20-12: task 0: Exited with exit code 1

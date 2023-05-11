@@ -1,0 +1,21 @@
+=========================================
+SLURM_JOB_ID = 712050
+SLURM_JOB_NODELIST = node20-98
+SLURM_CPUS_ON_NODE = 4
+SLURM_JOB_PARTITION = RT
+SLURM_TASK_PID = 179991
+==========================================
+ERROR on proc 0: Cannot open input script in.nve: No such file or directory (../lammps.cpp:520)
+Last command: (unknown)
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+In: PMI_Abort(1, N/A)
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 712050.0 ON node20-98 CANCELLED AT 2023-05-11T11:28:33 ***
+srun: error: node20-98: task 0: Exited with exit code 1

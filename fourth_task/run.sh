@@ -6,6 +6,6 @@
 #SBATCH --comment="lammps"
 
 
- srun ~/lmp_mpi -in in.modzmethod
+ srun ~/lmp_mpi -in  in.nve
 
 

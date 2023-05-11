@@ -1,0 +1,8 @@
+=========================================
+SLURM_JOB_ID = 712034
+SLURM_JOB_NODELIST = node20-11
+SLURM_CPUS_ON_NODE = 1
+SLURM_JOB_PARTITION = RT
+SLURM_TASK_PID = 1434632
+==========================================
+/bin/bash: SBATCH --ntasks=1 SBATCH --cpus-per-task=4 SBATCH --partition=RT SBATCH --job-name=example SBATCH --comment="lammps": No such file or directory

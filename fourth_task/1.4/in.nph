@@ -1,0 +1,15 @@
+# 3d Lennard-Jones melt
+units		lj
+pair_style	lj/cut 2.5
+atom_style	atomic
+read_data "T01.4_nve.data"
+
+neighbor	0.3 bin
+neigh_modify	every 20 delay 0 check no
+
+dump		traj all custom 1000 dump_nph.data id x y z
+fix 1 all nph aniso 6.48 6.48 1.0
+thermo		500
+run		200000
+
+

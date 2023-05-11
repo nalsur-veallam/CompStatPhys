@@ -1,0 +1,9 @@
+=========================================
+SLURM_JOB_ID = 712035
+SLURM_JOB_NODELIST = node20-13
+SLURM_CPUS_ON_NODE = 4
+SLURM_JOB_PARTITION = RT
+SLURM_TASK_PID = 2501802
+==========================================
+slurmstepd: error: *** STEP 712035.0 ON node20-13 CANCELLED AT 2023-05-11T10:40:36 ***
+slurmstepd: error: *** JOB 712035 ON node20-13 CANCELLED AT 2023-05-11T10:40:36 ***
